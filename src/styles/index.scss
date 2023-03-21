@@ -1,0 +1,502 @@
+:root {
+    --lightBlue: rgb(43, 140, 205);
+    --mediumBlue: rgb(60, 115, 187);
+    --textLight: rgb(68, 71, 76);
+    --danger: rgb(182, 35, 52);
+    --primary: rgb(5, 115, 180);
+    --primaryHover: rgb(17, 128, 193);
+    --text-gray: rgb(125, 130, 148);
+    --text-gray2: rgb(168, 173, 189);
+    --light-gray: #dfdfdf;
+    --white:rgb(246, 246, 246);
+    --input-gray:rgb(213, 213, 213);
+}
+body{
+    background-color: #ebebeb;
+}
+
+.welcome-text {
+    font-weight: 300;
+}
+
+.gray {
+    color: var(--text-gray);
+}
+
+.gray2 {
+    color: var(--text-gray2);
+}
+
+.border-radius-1 {
+    border-radius: 5px;
+}
+
+.grayTextInput {
+    background-color: transparent !important;
+    color: var(--text-gray) !important;
+    outline: 0px;
+}
+
+.bg-light {
+    background-color: rgb(230, 230, 230) !important;
+}
+
+.text-nomb {
+    color: black !important;
+    transition: all 0.5s ease;
+    transform: rotate(50deg);
+}
+
+body {
+    padding: 0px;
+    margin: 0px;
+}
+
+.pi {
+    border-bottom: 1px solid rgb(201, 201, 201);
+    border-top: 0px;
+    border-left: 0px;
+    border-right: 0px;
+    width: 100%;
+    background-color: rgb(232, 240, 254);
+}
+
+h2,
+p,
+span {
+    color: var(--textLight);
+}
+
+.balanceContainer {
+    border-radius: 5px;
+    background-color: var(--white);
+    padding: 10px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.saldo {
+    color: var(--text-gray);
+    margin: 0px;
+    padding: 0px;
+}
+
+.wallet {
+    height: 30px;
+    border-radius: 15px;
+    display: flex;
+    font-size: 14px;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0px 15px;
+    margin-top: 5px;
+    border: 1px solid var(--light-gray);
+    width: 140px;
+    transition: all 0.4s ease;
+}
+
+.wallet:hover {
+    cursor: pointer;
+    background-color: #cef9ff;
+    border: 1px solid var(--lightBlue);
+}
+
+.payBtnContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+}
+
+.balance {
+    line-height: 30px;
+    color: var(--mediumBlue);
+    font-size: 50px;
+    padding: 0px;
+    margin: 0px;
+}
+
+.addBalanceBtn {
+    width: 34px;
+    height: 34px;
+    border-radius: 34px;
+    border: none;
+    background-color: rgb(50, 65, 140);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.plusBtn {
+    font-size: 26px;
+    height: 20px;
+    font-weight: 600;
+    color: aliceblue;
+    padding-top: 0px;
+    margin-top: 0px;
+    line-height: 12px;
+}
+
+.addBalanceBtn:hover {
+    cursor: pointer;
+    background-color: rgb(64, 79, 154);
+}
+
+.tittleLightBlue {
+    color: var(--mediumBlue);
+    padding: 0px;
+    margin: 0px;
+}
+
+.operationsList {
+    min-height: 100px;
+}
+
+.operation {
+    border-bottom: 1px solid var(--light-gray);
+    min-height: 30px;
+    border-radius: 5px;
+    display: flex;
+    padding: 8px;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 7px;
+
+
+}
+
+.cGreen {
+    color: rgb(101, 196, 101);
+}
+
+.cRed {
+    color: rgb(218, 131, 123);
+}
+
+.negativeAmount {
+    padding-right: 20px;
+}
+
+.principalContainer {
+    min-height: 100vh;
+}
+
+.footerButton {
+    background-color: rgb(255, 255, 255);
+    padding: 10px;
+    align-items: center;
+    position: fixed;
+    bottom: 0px;
+    left: 0px;
+    width: 100%;
+}
+
+.shadow2 {
+    box-shadow: 0px 0px 10px 5px rgb(221, 221, 221);
+}
+
+.buttonFooterContainer {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.btnPay {
+    background-color: var(--mediumBlue);
+    height: 36px;
+    width: 120px;
+    border-radius: 18px;
+    border: 1px solid var(--mediumBlue);
+    color: aliceblue;
+    font-weight: 500;
+    padding: 0px 10px;
+}
+
+.movements {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+select {
+    color: var(--text-gray);
+    border-radius: 15px;
+    padding: 3px 5px;
+    text-align: center;
+    display: flex;
+    border: 1px solid var(--light-gray);
+}
+
+.addBalance {
+    height: 80px;
+    width: 100%;
+    margin-top: 20px;
+    border-radius: 4px;
+    border: 1px solid transparent;
+    color: aliceblue;
+    font-weight: 500;
+    padding: 0px 10px;
+}
+
+.bg-blue {
+    background-color: var(--lightBlue);
+}
+
+.bg-mediumBlue {
+    background-color: var(--mediumBlue);
+}
+
+.payBtnContent {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.form-inputs {
+    text-align: left;
+}
+
+.loadingContainer {
+    background-color: rgba(0, 0, 0, 0.501);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    z-index: 999;
+}
+
+.loadingContent {
+    color: aliceblue;
+    font-size: large;
+}
+
+.navBar {
+    color: var(--text-gray);
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--light-gray);
+    background-color: var(--white);
+}
+
+.logoNav {
+    height: 40px;
+    width: 40px;
+    margin-right: 10px;
+    border-radius: 50%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 38px;
+    background-image: url(../img/logo.png);
+}
+
+.navName {
+    display: flex;
+    align-items: center;
+}
+
+.logoutButton {
+    border-radius: 30px;
+    padding: 6px 15px;
+    border: none;
+    border: 1px solid var(--light-gray);
+    color: var(--text-gray);
+    display: flex;
+    width: 85px;
+    align-items: center;
+    justify-content: space-between;
+    transition: all 0.4s ease;
+}
+
+.logoutButton:hover {
+    background-color: var(--light-gray);
+}
+
+.backgroundModal {
+    background-color: rgba(0, 0, 0, 0.818);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100vw;
+    height: 100vh;
+    z-index: 999;
+}
+
+.modalIn {
+    background-color: aliceblue;
+    border-radius: 8px;
+    padding: 20px;
+    color: black;
+    width: 300px;
+    height: 300px;
+    ;
+}
+
+.titleModal {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.closeModal {
+    background-color: var(--danger);
+    border-radius: 50%;
+    padding: 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+}
+
+.mh-100 {
+    min-height: 100vh;
+}
+
+/* login button */
+.btn-primary {
+    background-color: var(--primary);
+}
+
+.btn-primary:hover {
+    background-color: var(--primaryHover);
+}
+
+.login-button {
+    border-radius: 3px !important;
+    border: 1px solid var(--primary);
+}
+
+.login-button:hover {
+    border: 1px solid rgb(88, 139, 166);
+}
+
+a {
+    color: var(--primary);
+}
+
+a:hover {
+    color: var(--primaryHover);
+}
+
+.h2-light {
+    font-weight: 300;
+}
+
+.wall {
+    background: linear-gradient(45deg, rgb(223, 223, 223), rgb(242, 242, 242));
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.bg-white {
+    background-color: rgb(232, 240, 254) !important;
+}
+
+.footerLinks {
+    text-align: left;
+}
+
+p {
+    margin: 0px;
+    padding: 0px;
+}
+
+.eye-btn,
+.form-control {
+    border-radius: 0px !important;
+}
+
+.eye-btn:hover {
+    border-bottom: 1px solid var(--lightBlue);
+}
+
+input:hover {
+    border-bottom: 1px solid var(--lightBlue);
+
+}
+.addBalanceContainer{
+    background-color: white;
+    box-shadow: 3px 3px 10px 3px rgb(203, 203, 203);
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.addSelect{
+    text-align: left;
+}
+.input-addBalance{
+    background-color: var(--input-gray);
+    border-radius: 3px;
+    height: 60px;
+    border: none;
+    outline: none;
+    font-size: 20px;
+    border-top-right-radius: 3px !important;
+    border-bottom-right-radius: 3px !important;
+}
+.input-addBalance:focus{
+    background-color: var(--input-gray);
+    outline: none !important;
+    border: none;
+    box-shadow: none;
+}
+.centerDollar{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 60px;
+    width: 60px;
+    
+    background-color: var(--input-gray);
+    border-bottom-left-radius: 3px;
+    border-top-left-radius: 3px;
+}
+
+.centerDollarUSDT{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 60px;
+    width: 80px;
+    background-color: var(--input-gray);
+    border-bottom-left-radius: 3px;
+    border-top-left-radius: 3px;
+}
+
+.dollar{
+    font-size: 20px;
+    font-weight: 500;
+    color: rgb(64, 64, 64);
+}
+.text-sm{
+    font-size: 13px;
+}
+.between{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.total-add{
+    font-size: 20px;
+    color: rgb(86, 86, 86);
+    font-weight: 500;
+}
+.light{
+    font-weight: 400;
+}
+.admin-link{
+    text-decoration: none;
+}
