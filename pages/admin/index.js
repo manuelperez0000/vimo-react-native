@@ -9,12 +9,18 @@ const AdminPanel = () => {
     const saveBs = (e) => {
         e.preventDefault()
         console.log("BS")
+        
     }
 
     return (<>
         <NavBar />
         <div className="p-5">
             <h4> Admin Panel </h4>
+            <ul> 
+                <li> transacciones </li>
+                <li> usuarios </li>
+                <li> Operaciones </li>  
+            </ul>
 
             <div className="mb-4 p-3 bg-danger">
                 Tipo de cambio Bolivar

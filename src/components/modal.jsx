@@ -11,12 +11,11 @@ const ModalActive = () => {
     const addBalance = async (e) => {
         e.preventDefault()
         setLoading(true)
-        setModalActive(false)
         const balance = e.target.addBalance.value
         try {
             const userRef = doc(db,"users", user.uid)
             const res = await updateDoc(userRef, { balance: increment(balance) })
-            
+            setModalActive(false)
             setLoading(false)
         } catch (e) {
             setModalActive(false)
@@ -24,15 +23,6 @@ const ModalActive = () => {
             alert(e)
             console.error("Error adding document: ", e);
         }
-        //modificar base de datos
-        // Add a new document in collection "cities"
-        /* await setDoc(doc(db, "cities", "LA"), {
-            name: "Los Angeles",
-            state: "CA",
-            country: "USA"
-        });
-        alert(e.target.addBalance.value) */
-        //setModalActive(false)
     }
     return (<>
     <Loading />

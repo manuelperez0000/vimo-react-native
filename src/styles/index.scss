@@ -5,12 +5,15 @@
     --danger: rgb(182, 35, 52);
     --primary: rgb(5, 115, 180);
     --primaryHover: rgb(17, 128, 193);
-    --text-gray: rgb(125, 130, 148);
-    --text-gray2: rgb(168, 173, 189);
+    --text-gray: rgb(62, 62, 63);
+    --text-gray2: rgb(49, 49, 50);
     --light-gray: #dfdfdf;
     --white:rgb(246, 246, 246);
     --input-gray:rgb(213, 213, 213);
 }
+
+$dark:rgb(98,98,98);
+
 body{
     background-color: #ebebeb;
 }
@@ -58,7 +61,10 @@ body {
     border-left: 0px;
     border-right: 0px;
     width: 100%;
-    background-color: rgb(232, 240, 254);
+    background-color: transparent;
+    box-shadow: none !important;
+    outline: 0px solid transparent;
+    height: 40px;
 }
 
 h2,
@@ -75,12 +81,6 @@ span {
     display: flex;
     justify-content: space-between;
     align-items: center;
-}
-
-.saldo {
-    color: var(--text-gray);
-    margin: 0px;
-    padding: 0px;
 }
 
 .wallet {
@@ -113,7 +113,7 @@ span {
 .balance {
     line-height: 30px;
     color: var(--mediumBlue);
-    font-size: 50px;
+    font-size: 40px;
     padding: 0px;
     margin: 0px;
 }
@@ -206,9 +206,19 @@ span {
     background-color: var(--mediumBlue);
     height: 36px;
     width: 120px;
-    border-radius: 18px;
+    border-radius: 3px;
     border: 1px solid var(--mediumBlue);
     color: aliceblue;
+    font-weight: 500;
+    padding: 0px 10px;
+}
+.btnPayDisabled {
+    background-color: rgb(190, 190, 190);
+    height: 36px;
+    width: 120px;
+    border-radius: 3px;
+    border: 1px solid transparent;
+    color: rgb(227, 227, 227);
     font-weight: 500;
     padding: 0px 10px;
 }
@@ -242,6 +252,9 @@ select {
 
 .bg-blue {
     background-color: var(--lightBlue);
+}
+.bg-green {
+    background-color: rgb(38, 168, 38);
 }
 
 .bg-mediumBlue {
@@ -499,4 +512,100 @@ input:hover {
 }
 .admin-link{
     text-decoration: none;
+}
+
+.bg-modal{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    background-color: #121212ca;
+    z-index: 999;
+    padding: 10px;
+}
+.modalBody{
+    width: 400px;
+    height: 400px;
+    padding: 20px;
+    background-color: #e4e4e4;
+    border-radius: 2px;
+    box-shadow: 5px 5px 5px 0px rgba(16, 16, 16, 0.314);
+}
+
+.notify{
+    padding: 15px 30px;
+    transition: 0.8s ease;
+    width: 60%;
+    max-width: 400px;
+    top: 15px;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: fixed;
+}
+
+.notify-info{
+    background-color: rgb(174, 208, 255);
+    border-bottom: 1px solid var(--mediumBlue);
+    right: 15px;
+    color: var(--mediumBlue);
+}
+
+$bg-warning : rgb(255,240,199);
+$color-warning : rgb(154, 120, 25);
+.notify-warning{
+    background-color: $bg-warning;
+    border-bottom: 1px solid $color-warning;
+    right: 15px;
+    color: $color-warning;
+}
+
+.notify-danger{
+    background-color: rgb(255, 163, 142);
+    border-bottom: 1px solid rgb(175, 82, 48);
+    right: 15px;
+    color: rgb(186, 87, 51);
+}
+
+.notify-success{
+    background-color: rgb(138, 254, 173);
+    border-bottom: 1px solid rgb(23, 123, 88);
+    right: 15px;
+    color: rgb(21, 133, 94);
+}
+
+.notify-disabled{
+    background-color: transparent;
+    border-bottom: 1px solid transparent;
+    right: 100%;
+    color: transparent;
+}
+
+.x-notify{
+    margin-left: 15px;
+    transition: 0.5s ease;
+}
+.x-notify:hover{
+    cursor: pointer;
+    transform: scale(1.1);
+}
+.amountTransfer{
+    background-color: rgb(218, 218, 218);
+    border-radius: 3px;
+    padding: 8px;
+    width: 100%;
+    font-size: 28px;
+    font-weight: 400;
+}
+.title-modal{
+    font-weight: 600;
+    color: var(--text-gray2);
+}
+.btn{
+    border-radius: 2px !important;
 }

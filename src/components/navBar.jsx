@@ -7,7 +7,7 @@ const NavBar = () => {
         <div className="navBar">
             <div className="navName">
                 <div className="logoNav"></div>
-                {user && user.email}
+                {/* {user && user.email} */}
             </div>
             <div className="d-flex align-items-center">
                 {user && user.email === "manuelperez.0000@gmail.com" &&
@@ -18,11 +18,11 @@ const NavBar = () => {
                     </Link>
                 }
 
-                <Link href="/home" className="admin-link" >
+                {/* <Link href="/home" className="admin-link" >
                     <div className="mx-3 admin-link">
                         Home
                     </div>
-                </Link>
+                </Link> */}
 
 
                 <button onClick={() => logOut()} className="logoutButton">

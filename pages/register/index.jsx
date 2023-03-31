@@ -1,7 +1,6 @@
 import { useContext } from "react"
 import { DataContext } from "../../src/context/DataContext"
 import Link from "next/link"
-import logo from '../../src/img/logo.png'
 import Image from "next/image"
 import Loading from "../../src/components/loading"
 import useEye from "../../src/hooks/useEye"
@@ -16,7 +15,7 @@ const Register = () => {
             <div className='row mh-100'>
                 <div className='col-12 col-sm-9 col-md-6 offset-lg-4 col-lg-4 d-flex align-items-center'>
                     <div className="p-5 shadow text-center bg-white border-radius-1 w-100">
-                        <Image src={logo} alt="logo" className='logo' width={140} height={140} />
+                        <Image src='/img/logo.png' priority alt="logo" className='logo' width={140} height={140} />
                         <h2 className='welcome-text gray'>Registrate</h2>
                         <form onSubmit={(e) => register(e)}>
                             <div className="form-inputs">

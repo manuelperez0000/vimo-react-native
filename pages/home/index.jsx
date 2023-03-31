@@ -15,22 +15,32 @@ const Home = () => {
             router.push('/')
         } else {
             setIsAuthenticated(true)
-            console.log(user)
+            //console.log(user)
         }
-    }, [])
+    }, [user])
 
     return (<>
         <NavBar />
         {isAuthenticated && <>
-            <div className='container principalContainer p-3'>
+            <div className='container principalContainer p-3 gray'>
+                <div className="pb-2">
+                    Bienvenido otra ves {user.email}
+                </div>
                 <div className='row'>
                     <div className='col-sm-12 col-md-6 mb-3'>
                         <Balance />
                         <div className="row">
                             <div className="col-6">
+                                <Link href="/pay">
+                                    <button className="addBalance bg-blue">
+                                        <i className="bi bi-send" /> Pagar
+                                    </button>
+                                </Link>
+                            </div>
+                            {/* <div className="col-6">
                                 <Link href="/addBalance">
                                     <button className="addBalance bg-mediumBlue">
-                                        <i className="bi bi-currency-exchange" /> Agregar saldo
+                                        <i className="bi bi-currency-exchange" /> Depositar
                                     </button>
                                 </Link>
                             </div>
@@ -41,9 +51,17 @@ const Home = () => {
                                     </button>
                                 </Link>
                             </div>
+                        */}
+                            <div className="col-6">
+                                <Link href="/transactions">
+                                    <button className="addBalance bg-blue">
+                                        <i className="bi bi-list" /> Operaciones
+                                    </button>
+                                </Link>
+                            </div>
                         </div>
                     </div>
-                    <div className='col-6'>
+                    <div className='col-6 d-none'>
                         <div className="movements">
                             <p className="gray">
                                 Movimientos recientes

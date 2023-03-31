@@ -3,32 +3,31 @@ import { useContext } from "react"
 import ModalActive from "./modal"
 
 const Balance = () => {
-    const { balance, setModalActive, user } = useContext(DataContext)
+    const { balance, user, notify } = useContext(DataContext)
+
+    const clipboard = (textToCopy) => {
+        navigator.clipboard.writeText(textToCopy);
+        notify("Wallet copiada en el portapapeles")
+    }
 
     return (<>
         <ModalActive />
         <div className="balanceContainer shadow2 p-3">
             <div className="w-100">
-                <div className="payBtnContainer">
-                    <p className="saldo">Saldo Vimo</p>
-                    <button onClick={() => Router.push("/pay")} className="btnPay">
-                        <i className="bi bi-send"></i> Pagar
-                    </button>
+                <div className="between mb-3">
+                    <p className="gray">Saldo</p>
+                    <p className="balance">${balance} </p>
                 </div>
-                <p className="balance mb-5">${balance} </p>
-                <p className="gray">Tu direccion</p>
-                <p className="wallet">
-                    <div className="gray">
-                        {user && user.wallet}
+                <div className="between">
+                    <p className="gray">Tu direccion</p>
+                    <div onClick={() => clipboard(user.wallet)} className="wallet">
+                        <div className="gray">
+                            {user && user.wallet}
+                        </div>
+                        <i className="bi bi-bag" />
                     </div>
-                    <i className="bi bi-bag" />
-                </p>
-            </div>
-            {/* <div>
-                <div className="addBalanceBtn">
-                    <div onClick={() => { setModalActive(true) }} className="plusBtn">+</div>
                 </div>
-            </div> */}
+            </div>
         </div>
     </>)
 }
