@@ -270,7 +270,7 @@ select {
     text-align: left;
 }
 
-.loadingContainer {
+.bg_modal {
     background-color: rgba(0, 0, 0, 0.501);
     display: flex;
     align-items: center;
@@ -529,7 +529,7 @@ input:hover {
 }
 .modalBody{
     width: 400px;
-    height: 400px;
+    min-height: 400px;
     padding: 20px;
     background-color: #e4e4e4;
     border-radius: 2px;
@@ -539,8 +539,8 @@ input:hover {
 .notify{
     padding: 15px 30px;
     transition: 0.8s ease;
-    width: 60%;
-    max-width: 400px;
+    width: 80%;
+    max-width: 600px;
     top: 15px;
     border-radius: 3px;
     display: flex;
@@ -608,4 +608,31 @@ $color-warning : rgb(154, 120, 25);
 }
 .btn{
     border-radius: 2px !important;
+}
+.wallet-connected{
+    border-radius: 2px;
+    border: 1px solid rgb(114, 198, 234);
+    background-color: #cef9ff;
+}
+
+.testnetEnvironment{
+    padding: 4px;
+    background-color: rgb(221, 208, 62);
+    color: #5d4c09;
+}
+.modal_body{
+    background-color: #dfdfdf;
+    padding: 15px;
+    border-radius: 2px;
+    min-width: 400px;
+    max-width: 90%;
+    max-height: 90%;
+}
+.successTransactionBody{
+    display: flex;
+    flex-direction: column;
+}
+.successIcon{
+    font-size: 60px;
+    text-align: center;
 }

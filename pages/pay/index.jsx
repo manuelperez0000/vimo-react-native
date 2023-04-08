@@ -1,22 +1,30 @@
-import { collection, query, doc, where, updateDoc, increment, getFirestore, getDocs, getDoc, setDoc } from "firebase/firestore"
+import { collection, query, doc, where, updateDoc, increment, getFirestore, getDocs, getDoc, addDoc } from "firebase/firestore"
 import { DataContext } from "../../src/context/DataContext"
 import { app } from "../../src/services/firebaseConfig"
 import Balance from "../../src/components/Balance"
 import NavBar from '../../src/components/navBar'
-import { useContext } from "react"
-import { useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import ConfirmationModal from "../../src/components/confirmationModal"
-
-
+import { useRouter } from "next/router"
 const Pay = () => {
+    const router = useRouter()
     const db = getFirestore(app)
     const userRef = collection(db, "users")
 
-    const { user, setLoading, notify } = useContext(DataContext)
+    const { user, setLoading, setIsAuthenticated } = useContext(DataContext)
     const [amount, setAmount] = useState("")
     const [direction, setDirection] = useState("")
     const [confimationModal, setConfirmationModal] = useState(false)
     const [transferData, setTransferData] = useState({})
+    const [successTransaction, setSuccessTransaction] = useState(false)
+
+    useEffect(() => {
+        if (!user) {
+            router.push('/')
+        } else {
+            setIsAuthenticated(true)
+        }
+    })
 
     const executePay = async (e) => {
         e.preventDefault()
@@ -33,7 +41,7 @@ const Pay = () => {
             const balance = await docSnap.data().balance
             if (balance < amount) return setLoading(false), alert("Fondos insuficientes")
             //modal de confirmacion
-            setTransferData({ from: user.uid, to: userTo.data().uid, wallet: userTo.data().wallet, amount, email: userTo.data().email })
+            setTransferData({ from: user.uid, to: userTo.data().uid, walletForm: user.wallet, walletTo: userTo.data().wallet, amount, email: userTo.data().email })
             setConfirmationModal(true)
         })
     }
@@ -41,7 +49,9 @@ const Pay = () => {
     const saveTransaction = async ({ from, to, amount }) => {
         //guardar transaccion en firebase
         const transaction = { from, to, amount, date: new Date() }
-        await setDoc(doc(db, "transactions", user.uid), transaction)
+        const myCollection = collection(db, "transactions")
+        const newDocRef = await addDoc(myCollection, transaction)
+        setSuccessTransaction({ ...transaction, id: newDocRef.id })
     }
 
     const transfer = async () => {
@@ -51,13 +61,9 @@ const Pay = () => {
             setLoading(true)
             await substractBalance(amount, from)
             await addBalance(amount, to)
-            await saveTransaction(transferData,(res)=>{
-                console.log("RES:",res)
-            })
-            setConfirmationModal(false)
+            await saveTransaction(transferData)
             setLoading(false)
-            setAmount("")
-            setDirection("")
+
         }
     }
 
@@ -73,16 +79,17 @@ const Pay = () => {
         else alert("Monto incorrecto")
     }
 
-    const cancelTransaction = () => {
+    const closeTransaction = () => {
         setConfirmationModal(false)
         setTransferData({})
+        setSuccessTransaction(false)
+        setAmount("")
+        setDirection("")
     }
-
-
 
     return (<>
         <NavBar />
-        <ConfirmationModal confimationModal={confimationModal} transferData={transferData} transfer={transfer} cancelTransaction={cancelTransaction} />
+        <ConfirmationModal successTransaction={successTransaction} confimationModal={confimationModal} transferData={transferData} transfer={transfer} closeTransaction={closeTransaction} />
         <div className="container-fluid principalContainer">
             <div className="row">
                 {/* <div className="col-md-6 offset-md-4 col-sm-12 pt-3"> */}
@@ -90,15 +97,15 @@ const Pay = () => {
                     <Balance />
                     <div className="px-5 mt-4">
                         <form onSubmit={(e) => executePay(e)}>
-                            <input onChange={(e) => setAmount(e.target.value)} value={amount} name="amount" type="number" step="0.01" placeholder="Monto" className="pi mt-3 mb-3" min="0.01" required />
+                            <input autoFocus onChange={(e) => setAmount(e.target.value)} value={amount} name="amount" type="number" step="0.01" placeholder="Monto" className="pi mt-3 mb-3" min="0.01" required />
                             <input onChange={(e) => setDirection(e.target.value)} value={direction} name="wallet" className="pi mt-3" type="text" placeholder="Direccion" pattern="[a-zA-Z0-9]+" title="Solo se permiten letras y números" required />
                             <div className="mt-4 payBtnContent">
                                 {amount.length > 0 && direction.length > 0 ?
                                     <button className="btnPay">
-                                        <i className="bi bi-send"></i> Pagar
+                                        <i className="bi bi-send"></i> Enviar
                                     </button> :
                                     <button className="btnPayDisabled" disabled>
-                                        <i className="bi bi-send"></i> Pagar
+                                        <i className="bi bi-send"></i> Enviar
                                     </button>
                                 }
                             </div>

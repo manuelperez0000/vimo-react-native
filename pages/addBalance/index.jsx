@@ -1,15 +1,24 @@
 
 import NavBar from "../../src/components/navBar"
-import Link from "next/link"
-import { useEffect, useState } from "react"
+import { useEffect, useState, useContext } from "react"
+import vimoContractAddress from "../../src/services/vimoContractAddress"
+import { DataContext } from "../../src/context/DataContext"
+import TransferTokenModal from "../../src/components/TransferTokenModal"
 const AddBalance = () => {
-    const change = { price: { bs: 24.45, usdt: 1.00 }, min: { bs: 100, usdt: 10 }, comision: 0.5 }
+
+    const { connect, userWallet, resumeWallet, usdtBalance, chainId, transferUsdt,transactionAddress, transactionError } = useContext(DataContext)
+    const change = { price: { bs: 24.45, usdt: 1.00 }, min: { bs: 1, usdt: 1 }, comision: 0.5 }
     const [selectOptions, setSelectOptions] = useState(false)
-
     const [totalVimoUsd, setTotalVimoUsd] = useState(0)
-    const [amountCharge, setAmountCharge] = useState(0)
+    const [amountCharge, setAmountCharge] = useState(1)
 
-    useEffect(() => { calculate(0) }, [])
+    useEffect(() => {
+        if (!userWallet && selectOptions == 3) connect()
+    }, [userWallet, connect, selectOptions])
+
+    useEffect(() => {
+        calculate(amountCharge)
+    })
 
     const handleOptionsSetect = (e) => {
         const target = e.target.value
@@ -26,20 +35,23 @@ const AddBalance = () => {
 
     return (<>
         <NavBar />
+        <TransferTokenModal />
         <div className="container">
             <div className="row">
-                <div className="col-12 py-4">
-                    <Link href="/home" >
-                        <button className="btn btn-primary">
-                            <i className="bi bi-arrow-left" /> Regresar
-                        </button>
-                    </Link>
+                <div className="col-12 col-lg-8 offset-lg-2 pt-3">
+                    <div className="d-flex align-items-center">
+                        {
+                            chainId === "0x61" ? <div className="testnetEnvironment"> Testnet Binance {chainId} </div> :
+                            chainId === "0x38" ? <div className="testnetEnvironment"> Mainnet Binance {chainId} </div> :
+                            <div className="testneEnvironment"> {chainId} </div>
+                        }
+                    </div>
                 </div>
-                <div className="col-12 col-lg-8 offset-lg-2">
+                <div className="col-12 col-lg-8 offset-lg-2 pt-3">
                     <div className="addBalanceContainer py-5">
                         <h3 className="gray mb-4 light">¿Como desea depositar?</h3>
                         <select onChange={(e) => handleOptionsSetect(e)} className="form-select addSelect gray">
-                            <option value="false" selected > Elija una opcion </option>
+                            <option value="0" > Elija una opcion </option>
                             <option value="1">
                                 Bolivares
                             </option>
@@ -155,11 +167,33 @@ const AddBalance = () => {
                                             </div>
                                         </div>
                                     </div>
-                                    <button className="btn btn-success w-100 my-4"> Cargar Saldo Vimo </button>
+                                    {userWallet ?
+                                        <button onClick={() => transferUsdt({ from: userWallet, address: vimoContractAddress, amount: amountCharge })} className="btn btn-success w-100 my-4"> Cargar Saldo Vimo </button>
+                                        :
+                                        <button onClick={() => connect()} className="btn btn-success w-100 my-4"> Conectar Wallet </button>
+                                    }
                                 </div>
+                                {userWallet &&
+                                    <div className="p-4 wallet-connected">
+                                        <div className="between">
+                                            <div>
+                                                Wallet conectada con exito <i className="text-success bi bi-check-circle-fill" />
+                                            </div>
+                                            <div className="text-secondary">
+                                                {resumeWallet(userWallet)}
+                                            </div>
+                                        </div>
+                                        <div className="between">
+                                            <div>Saldo en tu wallet (Metamask)</div>
+                                            <div>
+                                                USDT {usdtBalance ? usdtBalance : <div className="spinner-border spinner-border-sm" role="status" />}
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
 
-                                1.- crear un contrato para almacenar los usdt listo
-                                2.crear funcion para enviar los usdt al contrato y anexar los dolares a esa cuenta
+                                {/*  1.- crear un contrato para almacenar los usdt listo
+                                2.crear funcion para enviar los usdt al contrato y anexar los dolares a esa cuenta */}
 
                             </div>}
                         </div>

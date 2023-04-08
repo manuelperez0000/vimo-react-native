@@ -4,7 +4,7 @@ const Loading = () => {
     const {loading} = useContext(DataContext)
     return (<>
         {loading &&
-            <div className="loadingContainer">
+            <div className="bg_modal">
                 <div className="loadingContent">
                     <div className="spinner-border" role="status">
                     </div>

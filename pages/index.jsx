@@ -2,7 +2,6 @@ import Link from "next/link"
 import { DataContext } from "../src/context/DataContext"
 import { useContext } from "react"
 import Image from "next/image"
-import Loading from "../src/components/loading"
 import useEye from "../src/hooks/useEye"
 const Login = () => {
 
@@ -11,7 +10,7 @@ const Login = () => {
 
   return (
     <div className='container-fluid wall'>
-      <Loading />
+      
       <div className='row mh-100'>
         <div className='col-12 col-sm-9 col-md-6 offset-lg-4 col-lg-4 d-flex align-items-center'>
           <div className="p-5 shadow text-center bg-white border-radius-1 w-100">

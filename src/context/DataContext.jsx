@@ -1,10 +1,16 @@
 import { createContext } from 'react'
 import useAuth from '../../src/hooks/useAuth'
 import useNotify from '../hooks/useNotify'
+import useAddBalance from '../hooks/useAddBalance'
 export const DataContext = createContext()
 export const DataProvider = ({ children }) => {
 
-    const {notify,notifyStatus,notifyMessage,disableNotify} = useNotify()
+
+    const { notify, notifyStatus, notifyMessage, disableNotify } = useNotify()
+
+    const { connect, userWallet, usdtBalance, resumeWallet, chainId, transferUsdt,
+        transactionAddress, transactionError, setTransactionError, enabledTransferTokenModal,
+        setEnabledTransferTokenModal } = useAddBalance({ notify })
 
     const {
         user,
@@ -16,8 +22,9 @@ export const DataProvider = ({ children }) => {
         loading, setLoading,
         modalActive, setModalActive,
         balance, setBalance,
-        transactions
-    } = useAuth()
+        transactions,
+        isAuthenticated, setIsAuthenticated
+    } = useAuth({ notify })
 
     const context = {
         user,
@@ -33,7 +40,12 @@ export const DataProvider = ({ children }) => {
         notifyStatus,
         notifyMessage,
         disableNotify,
-        transactions
+        transactions,
+        isAuthenticated, setIsAuthenticated,
+        connect, userWallet, usdtBalance, resumeWallet, chainId, transferUsdt,
+        transactionAddress, transactionError,
+        enabledTransferTokenModal,
+        setTransactionError, setEnabledTransferTokenModal
     }
 
     return (

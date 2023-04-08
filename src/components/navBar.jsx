@@ -6,7 +6,9 @@ const NavBar = () => {
     return (
         <div className="navBar">
             <div className="navName">
-                <div className="logoNav"></div>
+                <Link href="/home">
+                    <div className="logoNav"></div>
+                </Link>
                 {/* {user && user.email} */}
             </div>
             <div className="d-flex align-items-center">

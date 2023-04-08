@@ -1,6 +1,6 @@
 import { sendPasswordResetEmail } from "firebase/auth";
 import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
-import { getAuth, signInWithEmailAndPassword as signIn, signOut, createUserWithEmailAndPassword as signUp } from "firebase/auth"
+import { getAuth, signInWithEmailAndPassword, signOut, createUserWithEmailAndPassword as signUp } from "firebase/auth"
 import { doc, getDoc, setDoc, getFirestore, onSnapshot, query, getDocs } from "firebase/firestore";
 import { collection, where } from "firebase/firestore";
 import { useState, useEffect } from "react"
@@ -8,9 +8,10 @@ import app from "../services/firebaseConfig"
 import Error from "../services/error"
 import { useRouter } from "next/router"
 import generateWallet from "../services/generateWallet";
+import axios from "axios";
 const provider = new GoogleAuthProvider();
 
-const useLogin = () => {
+const useLogin = ({ notify }) => {
     const auth = getAuth(app)
     const db = getFirestore(app)
     const router = useRouter()
@@ -19,14 +20,15 @@ const useLogin = () => {
     const [balance, setBalance] = useState(0)
     const [user, setUser] = useState()
     const [transactions, setTransactions] = useState([])
+    const [isAuthenticated, setIsAuthenticated] = useState(false)
 
     useEffect(() => {
         if (user) {
             refreshBalance()
         } else {
-            console.log("no user Loged")
+            //console.log("no user Loged")
         }
-    }, [user])
+    })
 
     const refreshBalance = () => {
         onSnapshot(doc(db, "users", user.uid), (res) => {
@@ -39,13 +41,15 @@ const useLogin = () => {
     const login = (e) => {
         e.preventDefault()
         setLoading(true)
-
+        //fetch a la api login
         const email = e.target.email.value
         const password = e.target.password.value
-        
-        signIn(auth, email, password)
-            .then((res) => {
-                const user = res.user
+        console.log(email, " ", password)
+        axios.post("http://localhost:3000/api/login/login", { email, password })
+            .then(res => {
+                setLoading(true)
+                console.log(res)
+                const user = res.data.user
                 const newUser = {
                     displayName: user.displayName,
                     photoURL: user.photoURL,
@@ -56,28 +60,70 @@ const useLogin = () => {
             }).then(async (user) => {
                 const docRef = doc(db, "users", user.uid)
                 const userData = await getDoc(docRef)
-                if (userData.exists()) {
-                    user.balance = userData.data().balance
-                    user.wallet = userData.data().wallet
-                    return user
-                }else{
-                    alert("usuario no registrado")
-                    return false
+                user.balance = userData.data().balance
+                user.wallet = userData.data().wallet
+                return user
+            }).then((user) => {
+                const transactions = getTransactions(user.uid)
+                setUser(user)
+                console.log(transactions)
+                setTransactions([])
+            })
+            .catch(error => {
+                console.log(error)
+                if (error.response.data.code === "auth/user-not-found") {
+                    notify("Usuario no registrado")
+                    console.log("Usuario no registrado")
                 }
-
-            }).then((user)=>{
-                if(user){
-                    const transactions = getTransactions(user.uid)
-                    setUser(user)
-                    console.log(transactions)
-                    setTransactions([])
-                }else{
-                    alert("Ocurrio un error inesperado")
+                if (error.response.data.code === "auth/network-request-failed") {
+                    notify("Peticion fallida, internet demasiado lento", "warning")
+                    console.log("Peticion fallida, internet demasiado lento", "warning")
                 }
             }).finally(()=>{
                 setLoading(false)
                 router.push('/home')
             })
+
+
+        /*  
+         
+         signInWithEmailAndPassword(auth, email, password)
+             .then((res) => {
+                 const user = res.user
+                 const newUser = {
+                     displayName: user.displayName,
+                     photoURL: user.photoURL,
+                     email: user.email,
+                     uid: user.uid
+                 }
+                 return newUser
+             }).then(async (user) => {
+                 const docRef = doc(db, "users", user.uid)
+                 const userData = await getDoc(docRef)
+                 if (userData.exists()) {
+                     user.balance = userData.data().balance
+                     user.wallet = userData.data().wallet
+                     return user
+                 }else{
+                     alert("usuario no registrado")
+                     return false
+                 }
+ 
+             }).then((user)=>{
+                 if(user){
+                     const transactions = getTransactions(user.uid)
+                     setUser(user)
+                     console.log(transactions)
+                     setTransactions([])
+                 }else{
+                     alert("Ocurrio un error inesperado")
+                 }
+             }).finally(()=>{
+                 setLoading(false)
+                 router.push('/home')
+             }) */
+
+        //****************************************************** */
         /*  .then((userCredential) => {
              const user = userCredential.user;
              const userObj = {
@@ -182,7 +228,7 @@ const useLogin = () => {
     }
 
     const registerUserFirestore = async (user) => {
-        let wallet = await generateWallet()
+        let wallet = await generateWallet(7)
         const userObj = {
             email: user.email,
             name: user.displayName,
@@ -199,10 +245,10 @@ const useLogin = () => {
     const getTransactions = async (uid) => {
         const q = query(collection(db, "transactions"))
         const transactions = await getDocs(q)
-       /*  transactions.forEach((doc) => {
-            // doc.data() is never undefined for query doc snapshots
-            console.log(doc.id, " => ", doc.data())
-        }) */
+        /*  transactions.forEach((doc) => {
+             // doc.data() is never undefined for query doc snapshots
+             console.log(doc.id, " => ", doc.data())
+         }) */
 
         /* const userRef = collection(db, "transactions")
         const _query = query(userRef, where("from", "==", uid))
@@ -218,7 +264,8 @@ const useLogin = () => {
         setLoading, modalActive,
         setModalActive, balance,
         setBalance, resetPassword,
-        transactions
+        transactions,
+        isAuthenticated, setIsAuthenticated
     }
 }
 export default useLogin

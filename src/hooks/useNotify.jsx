@@ -11,23 +11,20 @@ const useNotify = () => {
         if (type === "success") setnotifyStatus("notify notify-success")
         if (type === "danger") setnotifyStatus("notify notify-danger")
         setTimeout(() => {
-            setnotifyStatus("notify notify-disabled")
-            setNotifyMessage("")
+            disableNotify()
         }, 4000)
         clearTimeout()
     }
-    const disableNotify = ()=>{
+    const disableNotify = () => {
         setNotifyMessage("")
         setnotifyStatus("notify notify-disabled")
     }
 
-    const $ = {
+    return {
         notify,
         notifyStatus,
         notifyMessage,
         disableNotify
     }
-
-    return $
 }
 export default useNotify
