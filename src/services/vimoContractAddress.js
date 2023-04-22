@@ -1,2 +1,2 @@
-const vimoContractAddress = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS_VIMO
+const vimoContractAddress = "0xD1D017e09EEbb5C561c30990A501D989449bC4E9"
 export default vimoContractAddress
