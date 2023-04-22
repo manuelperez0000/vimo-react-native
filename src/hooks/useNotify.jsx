@@ -5,11 +5,13 @@ const useNotify = () => {
 
     const notify = (message, type) => {
         setNotifyMessage(message)
+
         if (!type) setnotifyStatus("notify notify-info")
         if (type === "info") setnotifyStatus("notify notify-info")
         if (type === "warning") setnotifyStatus("notify notify-warning")
         if (type === "success") setnotifyStatus("notify notify-success")
         if (type === "danger") setnotifyStatus("notify notify-danger")
+        
         setTimeout(() => {
             disableNotify()
         }, 4000)

@@ -1,38 +1,56 @@
 import { DataContext } from "../context/DataContext"
 import { useContext } from "react"
 import Link from "next/link"
+import Image from "next/image"
 const NavBar = () => {
     const { user, logOut } = useContext(DataContext)
     return (
         <div className="navBar">
-            <div className="navName">
-                <Link href="/home">
-                    <div className="logoNav"></div>
-                </Link>
-                {/* {user && user.email} */}
-            </div>
-            <div className="d-flex align-items-center">
-                {user && user.email === "manuelperez.0000@gmail.com" &&
-                    <Link href="/admin" className="admin-link" >
-                        <div className="mx-3 admin-link">
-                            Admin
+            <div className="nav-max bg-light p-3">
+                <div className="navContainer">
+                    <div className="navName">
+                        <Link href="/home">
+                            <Image src='/img/logo.png' priority alt="logo" className='logo' width={40} height={40} />
+                        </Link>
+                        <div className="px-2">
+                            <h5>
+                                VIMO
+                            </h5>
                         </div>
-                    </Link>
-                }
+                        {/* {user && user.email} */}
+                    </div>
+                    <div className="d-flex align-items-center">
+                        {user && user.email === "manuelperez.0000@gmail.com" &&
+                            <Link href="/admin" className="admin-link" >
+                                <div className="mx-3 admin-link">
+                                    Admin
+                                </div>
+                            </Link>
+                        }
 
-                {/* <Link href="/home" className="admin-link" >
+                        {/* <Link href="/home" className="admin-link" >
                     <div className="mx-3 admin-link">
-                        Home
+                    Home
                     </div>
                 </Link> */}
 
 
-                <button onClick={() => logOut()} className="logoutButton">
-                    <div>
-                        Salir
+                        <button onClick={() => logOut()} className="logoutButton">
+                            <div>
+                                Salir
+                            </div>
+                            <i className="bi bi-box-arrow-right" />
+                        </button>
                     </div>
-                    <i className="bi bi-box-arrow-right" />
-                </button>
+                </div>
+                <div className="text-center">
+                    <div>
+                        <b>
+                            Wallet vimo
+                        </b>
+                    </div>
+                    65465JF <i className="bi bi-bag hover-pointer"/>
+                </div>
             </div>
         </div>)
 }

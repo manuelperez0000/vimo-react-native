@@ -1,27 +1,28 @@
-import { useState } from "react"
+import { useContext, useState } from "react"
 import Web3 from 'web3'
 const provider = Web3.givenProvider
 const web3 = new Web3(provider)
-
+import axios from "axios"
 //prod 0x61 binance testnet
 import usdtAbiMainnet from '../services/usdtAbi.json'
 const usdtContractAddressMainnet = process.env.NEXT_PUBLIC_PRD_USDT_CONTRACT
 //dev 0x83 binance mainnet
 import usdtAbiTestnet from '../services/devUsdtAbi.json'
+import { Router } from "next/router"
+import { useRouter } from "next/router"
 const usdtContractAddressTestnet = process.env.NEXT_PUBLIC_DEV_USDT_CONTRACT
 //const usdtContract = new web3.eth.Contract(usdtAbiMainnet, usdtContractAddressMainnet)
 const usdtContract = new web3.eth.Contract(usdtAbiTestnet, usdtContractAddressTestnet)
-
-
-const useAddBalance = ({ notify }) => {
-
+const baseUrl = "http://localhost:3000/"
+const useAddBalance = ({ notify,user }) => {
+    const router = useRouter()
     const [userWallet, setUserWallet] = useState(false)
     const [usdtBalance, setUsdtBalance] = useState(false)
     const [chainId, setChainId] = useState(false)
     const [transactionAddress, setTransactionAddress] = useState(false)
     const [transactionError, setTransactionError] = useState(false)
-    const [enabledTransferTokenModal,setEnabledTransferTokenModal] = useState(true)
- 
+    const [enabledTransferTokenModal, setEnabledTransferTokenModal] = useState(false)
+
     const connect = async () => {
         if (typeof window.ethereum !== 'undefined') {
             const chainId = provider.chainId
@@ -34,7 +35,7 @@ const useAddBalance = ({ notify }) => {
             const _usdtbalance = await getUsdtBalance(accounts[0])
             setUsdtBalance(_usdtbalance)
         } else {
-            notify("Debe instalar metamask para poder realizar recargas con Theter USDT","warning")
+            notify("Debe instalar metamask para poder realizar recargas con Theter USDT", "warning")
         }
     }
 
@@ -51,24 +52,36 @@ const useAddBalance = ({ notify }) => {
     }
 
     const transferUsdt = async ({ from, address, amount }) => {
-        notify("Transaccion enviada","success")
+        notify("Transaccion enviada")
         const transactionResult = await transferTokens(usdtContractAddressTestnet, address, web3.utils.toWei(String(amount), "ether"), from)
+        notify("Transaccion Exitosa", "success")
 
         if (transactionResult.error) {
             setTransactionError(transactionResult.msg)
         } else {
-            setTransactionAddress(transactionResult.transactionAddress)
-        }
 
-        /* const usdtAmount = web3.utils.toWei(String(amount), "ether")
-        const gasPrice = await web3.eth.getGasPrice()
-        const gas = "100000"
-        const gasLimit = 21000
-        notify("Verifique su Metamask para completar la transaccion", "success")
-        usdtContract.methods.transfer(address, usdtAmount)
-            .send({ from, gasPrice, gas, gasLimit }).on('receipt', (transferResult) => {
-                console.log(transferResult)
-            }); */
+            console.log(user)
+
+            setTransactionAddress(transactionResult.transactionAddress)
+            const body = {
+                transationMesage: "Recarga de saldo metamask usdt",
+                type: "addBalance",
+                hash: transactionResult.transactionAddress,
+                amount,
+                user,
+                uid:user.uid,
+                wallet: from,
+                contractAddress: usdtContractAddressTestnet,
+                date: new Date()
+            }
+
+            const savedResponse = await axios.post(baseUrl + "api/transactions/save/save", body)
+            console.log(savedResponse)
+            
+            //guardar la transaccion y transferir los tokens a la wallet
+        }
+        setEnabledTransferTokenModal(true)
+
     }
 
     const transferTokens = async (tokenContractAddress, recipientAddress, numTokens, senderAddress) => {
@@ -99,10 +112,10 @@ const useAddBalance = ({ notify }) => {
 
 
     return {
-        connect, userWallet, usdtBalance, 
-        resumeWallet, chainId, transferUsdt, 
+        connect, userWallet, usdtBalance,
+        resumeWallet, chainId, transferUsdt,
         transactionAddress, transactionError,
-        enabledTransferTokenModal,setEnabledTransferTokenModal
+        enabledTransferTokenModal, setEnabledTransferTokenModal
     }
 }
 export default useAddBalance

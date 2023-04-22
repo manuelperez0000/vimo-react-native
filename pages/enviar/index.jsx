@@ -11,7 +11,7 @@ const Pay = () => {
     const db = getFirestore(app)
     const userRef = collection(db, "users")
 
-    const { user, setLoading, setIsAuthenticated } = useContext(DataContext)
+    const { user, setLoading, setIsAuthenticated,notify } = useContext(DataContext)
     const [amount, setAmount] = useState("")
     const [direction, setDirection] = useState("")
     const [confimationModal, setConfirmationModal] = useState(false)
@@ -30,16 +30,16 @@ const Pay = () => {
         e.preventDefault()
         const wallet = e.target.wallet.value
         const amount = e.target.amount.value
-        if (amount <= 0) return setLoading(false), alert("Monto invalido")
+        if (amount <= 0) return setLoading(false), notify("Monto invalido","warning")
         const _query = query(userRef, where("wallet", "==", wallet))
         const querySnapshot = await getDocs(_query)
-        if (querySnapshot.docs.length === 0) return setLoading(false), alert("Direccion invalida")
+        if (querySnapshot.docs.length === 0) return setLoading(false), notify("Direccion invalida","warning")
         querySnapshot.forEach(async (userTo) => {
             //obtener balance de usario que transfiere
             const docRef = doc(db, "users", user.uid)
             const docSnap = await getDoc(docRef)
             const balance = await docSnap.data().balance
-            if (balance < amount) return setLoading(false), alert("Fondos insuficientes")
+            if (balance < amount) return setLoading(false), notify("Fondos insuficientes","warning")
             //modal de confirmacion
             setTransferData({ from: user.uid, to: userTo.data().uid, walletForm: user.wallet, walletTo: userTo.data().wallet, amount, email: userTo.data().email })
             setConfirmationModal(true)
@@ -70,13 +70,13 @@ const Pay = () => {
     const substractBalance = async (balance, uid) => {
         const userRef = doc(db, "users", uid)
         if (balance > 0) await updateDoc(userRef, { balance: increment(-balance) })
-        else alert("Monto incorrecto")
+        else notify("Monto incorrecto","warning")
     }
 
     const addBalance = async (balance, uid) => {
         const userRef = doc(db, "users", uid)
         if (balance > 0) await updateDoc(userRef, { balance: increment(balance) })
-        else alert("Monto incorrecto")
+        else notify("Monto incorrecto","warning")
     }
 
     const closeTransaction = () => {
@@ -95,13 +95,15 @@ const Pay = () => {
                 {/* <div className="col-md-6 offset-md-4 col-sm-12 pt-3"> */}
                 <div className="mt-3 offset-lg-3 col-lg-6 offset-md-2 col-md-8">
                     <Balance />
-                    <div className="px-5 mt-4">
+                    <div className="px-5 mt-1">
                         <form onSubmit={(e) => executePay(e)}>
-                            <input autoFocus onChange={(e) => setAmount(e.target.value)} value={amount} name="amount" type="number" step="0.01" placeholder="Monto" className="pi mt-3 mb-3" min="0.01" required />
+                            <div>Monto a enviar</div>
+                            <input autoFocus onChange={(e) => setAmount(e.target.value)} value={amount} name="amount" type="number" step="0.01" placeholder="Monto" className="pi mb-3" min="0.01" required />
+                            <div className="mt-3 gray">Wallet a donde envia</div>
                             <input onChange={(e) => setDirection(e.target.value)} value={direction} name="wallet" className="pi mt-3" type="text" placeholder="Direccion" pattern="[a-zA-Z0-9]+" title="Solo se permiten letras y números" required />
                             <div className="mt-4 payBtnContent">
                                 {amount.length > 0 && direction.length > 0 ?
-                                    <button className="btnPay">
+                                    <button className="btn btn-primary">
                                         <i className="bi bi-send"></i> Enviar
                                     </button> :
                                     <button className="btnPayDisabled" disabled>

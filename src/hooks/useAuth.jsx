@@ -1,22 +1,21 @@
-import { sendPasswordResetEmail } from "firebase/auth";
-import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { sendPasswordResetEmail } from "firebase/auth"
+import { signInWithPopup, GoogleAuthProvider } from "firebase/auth"
 import { getAuth, signInWithEmailAndPassword, signOut, createUserWithEmailAndPassword as signUp } from "firebase/auth"
-import { doc, getDoc, setDoc, getFirestore, onSnapshot, query, getDocs } from "firebase/firestore";
-import { collection, where } from "firebase/firestore";
+import { doc, getDoc, setDoc, getFirestore, onSnapshot, query, getDocs } from "firebase/firestore"
+import { collection, where } from "firebase/firestore"
 import { useState, useEffect } from "react"
 import app from "../services/firebaseConfig"
 import Error from "../services/error"
 import { useRouter } from "next/router"
-import generateWallet from "../services/generateWallet";
-import axios from "axios";
-const provider = new GoogleAuthProvider();
+import generateWallet from "../services/generateWallet"
+import axios from "axios"
+const provider = new GoogleAuthProvider()
 
 const useLogin = ({ notify }) => {
     const auth = getAuth(app)
     const db = getFirestore(app)
     const router = useRouter()
     const [loading, setLoading] = useState(false)
-    const [modalActive, setModalActive] = useState(false)
     const [balance, setBalance] = useState(0)
     const [user, setUser] = useState()
     const [transactions, setTransactions] = useState([])
@@ -32,19 +31,18 @@ const useLogin = ({ notify }) => {
 
     const refreshBalance = () => {
         onSnapshot(doc(db, "users", user.uid), (res) => {
-            console.log("Current data: ", res.data())
-            let balance_ = res.data().balance.toFixed(2)
+            /* console.log("Current data: ", res.data()) */
+            const balance_ = res.data().balance
             setBalance(balance_)
         })
     }
 
-    const login = (e) => {
-        e.preventDefault()
+    const login = (email,password) => {
+        
         setLoading(true)
         //fetch a la api login
-        const email = e.target.email.value
-        const password = e.target.password.value
-        console.log(email, " ", password)
+        const loginData = [email,password]
+        localStorage.setItem("vimoLoginData",JSON.stringify(loginData))
         axios.post("http://localhost:3000/api/login/login", { email, password })
             .then(res => {
                 setLoading(true)
@@ -68,20 +66,27 @@ const useLogin = ({ notify }) => {
                 setUser(user)
                 console.log(transactions)
                 setTransactions([])
+                setLoading(false)
+                router.push('/home')
             })
             .catch(error => {
                 console.log(error)
-                if (error.response.data.code === "auth/user-not-found") {
-                    notify("Usuario no registrado")
-                    console.log("Usuario no registrado")
+                if (error) {
+                    if (error.response.data.code === "auth/user-not-found") {
+                        notify("Usuario no registrado")
+                        console.log("Usuario no registrado")
+                    }
+                    if (error.response.data.code === "auth/network-request-failed") {
+                        notify("Peticion fallida, internet demasiado lento", "warning")
+                        console.log("Peticion fallida, internet demasiado lento", "warning")
+                    }
+                    if (error.response.data.code === "auth/quota-exceeded") {
+                        notify("Error: peticiones de inicio de sesion exedidas", "danger")
+                        console.log("Quota exedida, server error")
+                    }
                 }
-                if (error.response.data.code === "auth/network-request-failed") {
-                    notify("Peticion fallida, internet demasiado lento", "warning")
-                    console.log("Peticion fallida, internet demasiado lento", "warning")
-                }
-            }).finally(()=>{
+            }).finally(_=>{
                 setLoading(false)
-                router.push('/home')
             })
 
 
@@ -187,6 +192,10 @@ const useLogin = ({ notify }) => {
 
     }
     const logOut = async () => {
+        const atemp =  localStorage.getItem('atempLoginVimo')
+        if(atemp){
+            localStorage.setItem('atempLoginVimo','false')
+        }
         setLoading(true)
         await signOut(auth)
         setLoading(false)
@@ -261,8 +270,7 @@ const useLogin = ({ notify }) => {
         login, logOut,
         register, user,
         google, loading,
-        setLoading, modalActive,
-        setModalActive, balance,
+        setLoading, balance,
         setBalance, resetPassword,
         transactions,
         isAuthenticated, setIsAuthenticated

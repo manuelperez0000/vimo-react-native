@@ -1,4 +1,3 @@
-
 import NavBar from "../../src/components/navBar"
 import { useEffect, useState, useContext } from "react"
 import vimoContractAddress from "../../src/services/vimoContractAddress"
@@ -6,7 +5,7 @@ import { DataContext } from "../../src/context/DataContext"
 import TransferTokenModal from "../../src/components/TransferTokenModal"
 const AddBalance = () => {
 
-    const { connect, userWallet, resumeWallet, usdtBalance, chainId, transferUsdt,transactionAddress, transactionError } = useContext(DataContext)
+    const { connect, userWallet, resumeWallet, usdtBalance, chainId, transferUsdt, transactionAddress, transactionError } = useContext(DataContext)
     const change = { price: { bs: 24.45, usdt: 1.00 }, min: { bs: 1, usdt: 1 }, comision: 0.5 }
     const [selectOptions, setSelectOptions] = useState(false)
     const [totalVimoUsd, setTotalVimoUsd] = useState(0)
@@ -28,9 +27,9 @@ const AddBalance = () => {
 
     const calculate = (value) => {
         setAmountCharge(value)
-        if (selectOptions === 1) setTotalVimoUsd(((value / change.price.bs) - (value / change.price.bs * change.comision / 100)).toFixed(2))
-        if (selectOptions === 2) setTotalVimoUsd(((value * change.price.usdt) - (value / change.price.usdt * change.comision / 100)).toFixed(2))
-        if (selectOptions === 3) setTotalVimoUsd(((value * change.price.usdt) - (value / change.price.usdt * change.comision / 100)).toFixed(2))
+        if (selectOptions === 1) setTotalVimoUsd(((Math.floor(((value / change.price.bs) - (value / change.price.bs * change.comision / 100)) * 100)) / 100).toFixed(2))
+        if (selectOptions === 2) setTotalVimoUsd(((Math.floor(((value * change.price.usdt) - (value / change.price.usdt * change.comision / 100)) * 100)) / 100).toFixed(2))
+        if (selectOptions === 3) setTotalVimoUsd(((Math.floor(((value * change.price.usdt) - (value / change.price.usdt * change.comision / 100)) * 100)) / 100).toFixed(2))
     }
 
     return (<>
@@ -42,8 +41,8 @@ const AddBalance = () => {
                     <div className="d-flex align-items-center">
                         {
                             chainId === "0x61" ? <div className="testnetEnvironment"> Testnet Binance {chainId} </div> :
-                            chainId === "0x38" ? <div className="testnetEnvironment"> Mainnet Binance {chainId} </div> :
-                            <div className="testneEnvironment"> {chainId} </div>
+                                chainId === "0x38" ? <div className="testnetEnvironment"> Mainnet Binance {chainId} </div> :
+                                    <div className="testneEnvironment"> {chainId} </div>
                         }
                     </div>
                 </div>

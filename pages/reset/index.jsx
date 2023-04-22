@@ -5,15 +5,20 @@ import Image from "next/image"
 import Loading from "../../src/components/loading"
 
 const Reset = () => {
-    const {resetPassword} = useContext(DataContext)  
+    const { resetPassword } = useContext(DataContext)
     return (
-        <div className='container-fluid wall'>
+        <div className='container-fluid'>
             <Loading />
             <div className='row mh-100'>
                 <div className='col-12 col-sm-9 col-md-6 offset-lg-4 col-lg-4 d-flex align-items-center'>
-                    <div className="p-5 shadow text-center bg-white border-radius-1 w-100">
-                        <Image  src='/img/logo.png' priority alt="logo" className='logo' width={140} height={140} />
-                        <h2 className='welcome-text gray mb-3'>Recuperar contraseña</h2>
+                    <div className="pt-5 px-4 text-center">
+                        <div className="signInText">
+                            Recuperacion de contraseña
+                        </div>
+                        <div className="logo-index">
+                            <Image src='/img/logo.png' priority alt="logo" className='logo' width={80} height={80} />
+                            VIMO
+                        </div>
                         <form onSubmit={(e) => resetPassword(e)}>
                             <div className="form-inputs">
                                 <span className="gray small"> Correo </span>

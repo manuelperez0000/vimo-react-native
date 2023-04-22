@@ -6,7 +6,9 @@ const Loading = () => {
         {loading &&
             <div className="bg_modal">
                 <div className="loadingContent">
-                    <div className="spinner-border" role="status">
+                    <span className="loader mb-4"></span>
+                    <div>
+                        Cargando
                     </div>
                 </div>
             </div>
