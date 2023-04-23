@@ -4,6 +4,7 @@ import { useCallback, useContext, useEffect, useState } from "react"
 import Image from "next/image"
 import useEye from "../src/hooks/useEye"
 import Loading from "../src/components/loading"
+import AuthBody from "../src/components/authBody"
 const Login = () => {
 
   const { login } = useContext(DataContext)
@@ -40,8 +41,8 @@ const Login = () => {
     <div className='container-fluid'>
       <Loading />
       <div className='row min-h-100vh'>
-        <div className='col-12 col-sm-8 offset-sm-2 col-md-6 offset-md-3 col-lg-4 offset-lg-4 '>
-          <div className="pt-5 px-4 text-center">
+        <div className='col-12 col-sm-8 offset-sm-2 col-md-6 offset-md-3 col-lg-4 offset-lg-4 center-login'>
+          <AuthBody >
             <div className="signInText">
               Iniciar sesion-
             </div>
@@ -71,7 +72,7 @@ const Login = () => {
               <p className="gray" >No tienes una cuenta? <Link href="/register">Registrate</Link></p>
               <Link href="/reset">Olvide mi contraseña</Link>
             </div>
-          </div>
+          </AuthBody>
         </div>
       </div>
     </div>

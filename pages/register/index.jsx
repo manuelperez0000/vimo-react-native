@@ -4,6 +4,7 @@ import Link from "next/link"
 import Image from "next/image"
 import Loading from "../../src/components/loading"
 import useEye from "../../src/hooks/useEye"
+import AuthBody from "../../src/components/authBody"
 const Register = () => {
 
     const { register } = useContext(DataContext)
@@ -13,8 +14,8 @@ const Register = () => {
         <div className='container-fluid'>
             <Loading />
             <div className='row min-h-100vh'>
-                <div className='col-12 col-sm-8 offset-sm-2 col-md-6 offset-md-3 col-lg-4 offset-lg-4 '>
-                    <div className="pt-5 px-4 text-center">
+                <div className='col-12 col-sm-8 offset-sm-2 col-md-6 offset-md-3 col-lg-4 offset-lg-4 center-login'>
+                    <AuthBody>
                         <div className="signInText">
                             Registro
                         </div>
@@ -43,7 +44,7 @@ const Register = () => {
                             <p className="gray">Ya tienes una cuenta? <Link href="/">Login</Link></p>
                             <Link href="/reset">Olvide mi contraseña</Link>
                         </div>
-                    </div>
+                    </AuthBody>
                 </div>
             </div>
         </div>

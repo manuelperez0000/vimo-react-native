@@ -21,9 +21,9 @@ const Home = () => {
     })
 
     return (<>
-        {isAuthenticated && <div className="mt-2">
+        {isAuthenticated && <div className="">
             <NavBar />
-            <div className="body-account bg-light mt-1">
+            <div className="body-account mt-1 bg-white">
                 <div className='container gray'>
                     <div className='row'>
                         <div className='col-12'>
@@ -106,7 +106,7 @@ const Home = () => {
                     </div>
                 </div>
             </div>
-            <div className="body-account bg-light mt-1 p-3">
+            <div className="body-account mt-1 bg-light p-3">
                 <div className='col-sm-12'>
                     <div className="mt-3">
                         <div className="movements">

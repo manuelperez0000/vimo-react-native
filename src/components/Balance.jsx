@@ -13,7 +13,7 @@ const Balance = () => {
                 Saldo vimo
                 </div>
                 <div className="principalBalance">
-                    ${balance}
+                    ${  balance.toFixed(2) }
                 </div>
             </div>
         </div>

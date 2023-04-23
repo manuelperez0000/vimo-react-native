@@ -95,7 +95,7 @@ const Pay = () => {
                 {/* <div className="col-md-6 offset-md-4 col-sm-12 pt-3"> */}
                 <div className="mt-3 offset-lg-3 col-lg-6 offset-md-2 col-md-8">
                     <Balance />
-                    <div className="px-5 mt-1">
+                    <div className="px-5">
                         <form onSubmit={(e) => executePay(e)}>
                             <div>Monto a enviar</div>
                             <input autoFocus onChange={(e) => setAmount(e.target.value)} value={amount} name="amount" type="number" step="0.01" placeholder="Monto" className="pi mb-3" min="0.01" required />

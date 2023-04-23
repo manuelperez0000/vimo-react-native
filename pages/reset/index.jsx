@@ -3,15 +3,17 @@ import { DataContext } from "../../src/context/DataContext"
 import Link from "next/link"
 import Image from "next/image"
 import Loading from "../../src/components/loading"
-
+import AuthBody from "../../src/components/authBody"
 const Reset = () => {
     const { resetPassword } = useContext(DataContext)
     return (
         <div className='container-fluid'>
             <Loading />
-            <div className='row mh-100'>
-                <div className='col-12 col-sm-9 col-md-6 offset-lg-4 col-lg-4 d-flex align-items-center'>
-                    <div className="pt-5 px-4 text-center">
+            <div className='row min-h-100vh'>
+                <div className='col-12 col-sm-9 col-md-6 offset-lg-4 col-lg-4 center-login'>
+                    {/* <div className="pt-5 px-4 text-center"> */}
+                    <AuthBody>
+
                         <div className="signInText">
                             Recuperacion de contraseña
                         </div>
@@ -31,10 +33,11 @@ const Reset = () => {
                             <p className="gray">No tienes una cuenta? <Link href="/register">Registrate</Link></p>
                             <p className="gray">Ya tienes una cuenta? <Link href="/">Login</Link></p>
                         </div>
-                    </div>
+                    </AuthBody>
                 </div>
             </div>
-        </div>
+        </div >
+
     )
 }
 export default Reset

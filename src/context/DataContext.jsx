@@ -30,7 +30,7 @@ ${user.wallet}`);
         transactions,
         isAuthenticated, setIsAuthenticated
     } = useAuth({ notify })
-    
+
     const { connect, userWallet, usdtBalance, resumeWallet, chainId, transferUsdt,
         transactionAddress, transactionError, setTransactionError, enabledTransferTokenModal,
         setEnabledTransferTokenModal } = useAddBalance({ notify, user })
@@ -44,7 +44,7 @@ ${user.wallet}`);
         resetPassword,
         loading, setLoading,
         balance, setBalance,
-        notify, clipboard,whatsappShare,
+        notify, clipboard, whatsappShare,
         notifyStatus,
         notifyMessage,
         disableNotify,

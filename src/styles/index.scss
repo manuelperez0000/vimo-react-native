@@ -18,7 +18,7 @@
 
 $dark: rgb(98, 98, 98);
 body {
-    background: rgb(219, 214, 207);
+    background: rgb(237, 235, 232);
     background-size: 400% 400%;
     height: 100vh;
     font-family: 'Raleway', sans-serif;
@@ -93,10 +93,6 @@ a {
     background-color: transparent !important;
     color: var(--text-gray) !important;
     outline: 0px;
-}
-
-.bg-light {
-    background-color: rgb(230, 230, 230) !important;
 }
 
 .text-nomb {
@@ -775,6 +771,7 @@ $color-warning : rgb(154, 120, 25);
     font-family: monospace;
     color: var(--mediumBlue);
     margin-bottom: 30px;
+    word-break: break-all;
 }
 
 .bg-move {
@@ -858,4 +855,9 @@ $color-warning : rgb(154, 120, 25);
 }
 .edit-profile-btn{
     font-size: 15px;
+}
+.center-login{
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
