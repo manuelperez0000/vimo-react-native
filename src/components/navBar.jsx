@@ -3,7 +3,7 @@ import { useContext } from "react"
 import Link from "next/link"
 import Image from "next/image"
 const NavBar = () => {
-    const { user, logOut,clipboard } = useContext(DataContext)
+    const { user, logOut,clipboard,whatsappShare } = useContext(DataContext)
     return (
         <div className="navBar">
             <div className="nav-max bg-white p-3">
@@ -50,8 +50,8 @@ const NavBar = () => {
                         </b>
                     </div>
                     <div className="arial">
-                    {user.wallet} <i onClick={()=>clipboard(user.wallet)} className="bi bi-bag hover-pointer"/>
-
+                    {user.wallet} <i onClick={()=>clipboard(user.wallet)} className="bi bi-bag hover-pointer mx-2"/>
+                    <i onClick={()=>whatsappShare()} className="bi bi-whatsapp hover-pointer mx-1" />
                     </div>
                 </div>
             </div>
