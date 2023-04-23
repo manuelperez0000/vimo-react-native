@@ -43,7 +43,7 @@ const Login = () => {
         <div className='col-12 col-sm-8 offset-sm-2 col-md-6 offset-md-3 col-lg-4 offset-lg-4 '>
           <div className="pt-5 px-4 text-center">
             <div className="signInText">
-              Iniciar sesion
+              Iniciar sesion-
             </div>
             <div className="logo-index">
               <Image src='/img/logo.png' priority alt="logo" className='logo' width={80} height={80} />
