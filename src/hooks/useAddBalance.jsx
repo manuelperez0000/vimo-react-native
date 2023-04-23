@@ -3,6 +3,7 @@ import Web3 from 'web3'
 const provider = Web3.givenProvider
 const web3 = new Web3(provider)
 import axios from "axios"
+import serverRoute from "../routes/serverRoute"
 //prod 0x61 binance testnet
 import usdtAbiMainnet from '../services/usdtAbi.json'
 const usdtContractAddressMainnet = process.env.NEXT_PUBLIC_PRD_USDT_CONTRACT
@@ -13,7 +14,7 @@ import { useRouter } from "next/router"
 const usdtContractAddressTestnet = process.env.NEXT_PUBLIC_DEV_USDT_CONTRACT
 //const usdtContract = new web3.eth.Contract(usdtAbiMainnet, usdtContractAddressMainnet)
 const usdtContract = new web3.eth.Contract(usdtAbiTestnet, usdtContractAddressTestnet)
-const baseUrl = "http://localhost:3000/"
+const baseUrl = serverRoute
 const useAddBalance = ({ notify,user }) => {
     const router = useRouter()
     const [userWallet, setUserWallet] = useState(false)

@@ -4,6 +4,7 @@ import { getAuth, signInWithEmailAndPassword, signOut, createUserWithEmailAndPas
 import { doc, getDoc, setDoc, getFirestore, onSnapshot, query, getDocs } from "firebase/firestore"
 import { collection, where } from "firebase/firestore"
 import { useState, useEffect } from "react"
+import serverRoute from "../routes/serverRoute"
 import app from "../services/firebaseConfig"
 import Error from "../services/error"
 import { useRouter } from "next/router"
@@ -43,7 +44,7 @@ const useLogin = ({ notify }) => {
         //fetch a la api login
         const loginData = [email,password]
         localStorage.setItem("vimoLoginData",JSON.stringify(loginData))
-        axios.post("http://localhost:3000/api/login/login", { email, password })
+        axios.post(serverRoute+"/api/login/login", { email, password })
             .then(res => {
                 setLoading(true)
                 console.log(res)
