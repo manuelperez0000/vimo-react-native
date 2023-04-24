@@ -1,6 +1,6 @@
 import { collection, query, doc, where, updateDoc, increment, getFirestore, getDocs, getDoc, addDoc } from "firebase/firestore"
 import { DataContext } from "../../src/context/DataContext"
-import { app } from "../../src/services/firebaseConfig"
+import app from "../../src/services/firebaseConfig"
 import Balance from "../../src/components/Balance"
 import NavBar from '../../src/components/navBar'
 import { useContext, useEffect, useState } from "react"
@@ -11,7 +11,7 @@ const Pay = () => {
     const db = getFirestore(app)
     const userRef = collection(db, "users")
 
-    const { user, setLoading, setIsAuthenticated,notify } = useContext(DataContext)
+    const { user, setLoading, setIsAuthenticated, notify } = useContext(DataContext)
     const [amount, setAmount] = useState("")
     const [direction, setDirection] = useState("")
     const [confimationModal, setConfirmationModal] = useState(false)
@@ -30,16 +30,16 @@ const Pay = () => {
         e.preventDefault()
         const wallet = e.target.wallet.value
         const amount = e.target.amount.value
-        if (amount <= 0) return setLoading(false), notify("Monto invalido","warning")
+        if (amount <= 0) return setLoading(false), notify("Monto invalido", "warning")
         const _query = query(userRef, where("wallet", "==", wallet))
         const querySnapshot = await getDocs(_query)
-        if (querySnapshot.docs.length === 0) return setLoading(false), notify("Direccion invalida","warning")
+        if (querySnapshot.docs.length === 0) return setLoading(false), notify("Direccion invalida", "warning")
         querySnapshot.forEach(async (userTo) => {
             //obtener balance de usario que transfiere
             const docRef = doc(db, "users", user.uid)
             const docSnap = await getDoc(docRef)
             const balance = await docSnap.data().balance
-            if (balance < amount) return setLoading(false), notify("Fondos insuficientes","warning")
+            if (balance < amount) return setLoading(false), notify("Fondos insuficientes", "warning")
             //modal de confirmacion
             setTransferData({ from: user.uid, to: userTo.data().uid, walletForm: user.wallet, walletTo: userTo.data().wallet, amount, email: userTo.data().email })
             setConfirmationModal(true)
@@ -70,13 +70,13 @@ const Pay = () => {
     const substractBalance = async (balance, uid) => {
         const userRef = doc(db, "users", uid)
         if (balance > 0) await updateDoc(userRef, { balance: increment(-balance) })
-        else notify("Monto incorrecto","warning")
+        else notify("Monto incorrecto", "warning")
     }
 
     const addBalance = async (balance, uid) => {
         const userRef = doc(db, "users", uid)
         if (balance > 0) await updateDoc(userRef, { balance: increment(balance) })
-        else notify("Monto incorrecto","warning")
+        else notify("Monto incorrecto", "warning")
     }
 
     const closeTransaction = () => {
