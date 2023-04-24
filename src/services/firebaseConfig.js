@@ -9,8 +9,9 @@ const firebaseConfig = {
     messagingSenderId: "1007575921975",
     appId: "1:1007575921975:web:1db896e759edf6556696b2"
 }
+const app = initializeApp(firebaseConfig)
 
-export default app = initializeApp(firebaseConfig)
+export default app
 
 
 
