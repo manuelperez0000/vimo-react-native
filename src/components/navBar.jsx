@@ -50,7 +50,7 @@ const NavBar = () => {
                         </b>
                     </div>
                     <div className="arial">
-                    {user.wallet} <i onClick={()=>clipboard(user.wallet)} className="bi bi-bag hover-pointer mx-2"/>
+                    {user && user.wallet} <i onClick={()=>clipboard(user.wallet)} className="bi bi-bag hover-pointer mx-2"/>
                     <i onClick={()=>whatsappShare()} className="bi bi-whatsapp hover-pointer mx-1" />
                     </div>
                 </div>

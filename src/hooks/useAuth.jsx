@@ -65,7 +65,6 @@ const useLogin = ({ notify }) => {
             }).then((user) => {
                 const transactions = getTransactions(user.uid)
                 setUser(user)
-                console.log(transactions)
                 setTransactions([])
                 setLoading(false)
                 router.push('/home')

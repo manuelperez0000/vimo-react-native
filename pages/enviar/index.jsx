@@ -19,6 +19,7 @@ const Pay = () => {
     const [successTransaction, setSuccessTransaction] = useState(false)
 
     useEffect(() => {
+        console.log(app)
         if (!user) {
             router.push('/')
         } else {
