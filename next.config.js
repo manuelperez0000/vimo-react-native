@@ -1,9 +1,20 @@
 const path = require('path');
-const nextConfig = {
+const withPWA = require('next-pwa')({
+  dest: 'public'
+})
+
+module.exports = withPWA({
   reactStrictMode: true,
   sassOptions: {
     includePaths: [path.join(__dirname, 'styles')]
+  },
+  pwa:{
+    des:"public",
+    register:true,
+    skipWaiting:true
   }
-}
+})
 
-module.exports = nextConfig
+/* const nextConfig = 
+
+module.exports = nextConfig */
